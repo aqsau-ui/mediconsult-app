@@ -1,0 +1,26 @@
+version: '3.8'
+
+services:
+  web:
+    image: aqsaimtiaz/mediconsult-app:latest
+    ports:
+      - "8502:8501"  # Different port: 8502 externally
+    volumes:
+      - ./mediconsult_app.py:/app/mediconsult_app.py  # Volume for code instead of Dockerfile
+      - ./config.py:/app/config.py
+      - ./utils:/app/utils
+      - ./pages:/app/pages
+    depends_on:
+      - mongodb
+    container_name: mediconsult-web-app  # Different container name
+
+  mongodb:
+    image: mongo:latest
+    ports:
+      - "27018:27017"  # Different port: 27018 externally
+    volumes:
+      - mongodb_data:/data/db
+    container_name: mediconsult-mongodb  # Different container name
+
+volumes:
+  mongodb_data:
