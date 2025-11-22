@@ -1,0 +1,28 @@
+version: '3.8'
+
+services:
+  # Web Application Service
+  web:
+    image: aqsaimtiaz/mediconsult-app:latest
+    container_name: mediconsult_web
+    ports:
+      - "8501:8501"
+    environment:
+      - MONGODB_URI=mongodb://mongodb:27017/
+    depends_on:
+      - mongodb
+    restart: unless-stopped
+
+  # MongoDB Database Service
+  mongodb:
+    image: mongo:latest
+    container_name: mediconsult_mongodb
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongodb_data:/data/db  # Persistent volume for database
+    restart: unless-stopped
+
+# Named volume for data persistence (REQUIRED by assignment)
+volumes:
+  mongodb_data:
